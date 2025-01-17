@@ -17,7 +17,10 @@ actor DBank {
     //Function to withdraw() an amount from currentValue
     public func withdraw(amount: Nat) {
         currentValue -= amount;
+        if (currentValue - amount >= 0) {
+            currentValue -= amount;
         Debug.print(debug_show(currentValue));
+        }
     }
 };
  
