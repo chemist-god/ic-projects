@@ -5,6 +5,7 @@ actor DBank {
 
     var currentValue = 100;
 
+        //Function to topUP currentValue
     public func topUp(amount: Nat) {
         currentValue += amount;
         Debug.print(debug_show (currentValue));
