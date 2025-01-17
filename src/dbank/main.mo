@@ -1,18 +1,18 @@
 import Debug "mo:base/Debug";
 import Nat "mo:base/Nat";
 
+    //A Decentralised Banking 
 actor DBank {
 
-    var currentValue = 100;
+    var currentValue = 100; //initialized currentValue
 
-        //Function to topUP currentValue
+
+//Here are some functionalities that users will perform like topUp balance, withdraw amount, 
+        //*Function to topUP currentValue
     public func topUp(amount: Nat) {
         currentValue += amount;
         Debug.print(debug_show (currentValue));
     };
 };
  
- //you realised anytime we run this func , the amount input always add up back 
- //to the initial value set that 100, but it does not increase from 
- //where you it was called previously, this concept is called
- //Orthogonal Persistence -will talk about it more later on
+        
