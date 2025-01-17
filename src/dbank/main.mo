@@ -1,5 +1,6 @@
 import Debug "mo:base/Debug";
 import Nat "mo:base/Nat";
+import Int "mo:base/Int";
 
     //A Decentralised Banking 
 actor DBank {
@@ -17,7 +18,8 @@ actor DBank {
     //Function to withdraw() an amount from currentValue
     public func withdraw(amount: Nat) {
         currentValue -= amount;
-        if (currentValue - amount >= 0) {
+        let tempValue: Int   = currentValue - amount
+        if (tempValue >= 0) {
             currentValue -= amount;
         Debug.print(debug_show(currentValue));
         }
