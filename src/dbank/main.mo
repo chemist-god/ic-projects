@@ -24,6 +24,11 @@ actor DBank {
         } else {
             Debug.print("Amount too large to withdraw, currentValue less than 0.")
         }
+    };
+
+    //functio to check balance
+    public query func checkBalance(): async Nat {
+        return currentValue;
     }
 };
  
