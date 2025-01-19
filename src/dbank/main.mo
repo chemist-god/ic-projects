@@ -34,6 +34,13 @@ actor DBank {
     public query func checkBalance(): async Nat {
         return currentValue;
     };
+
+
+    public func compound() {
+        let currentTime = Time.now();
+        let timeElapsedNS = currentTime -startTime;
+        let timeElapsedS = timeElapsedNS / 1000000000;
+    }
 };
  
         
