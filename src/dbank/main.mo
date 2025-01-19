@@ -5,7 +5,7 @@ import Int "mo:base/Int";
     //A Decentralised Banking 
 actor DBank {
 
-    var currentValue = 100; //initialized currentValue
+    stable var currentValue = 100; //so to keep the currentvalue we add "stable"
 
 
 //Here are some functionalities that users will perform like topUp balance, withdraw amount, checkBalance;
