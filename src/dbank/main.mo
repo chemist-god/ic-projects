@@ -12,7 +12,7 @@ actor DBank {
     stable var startTime = Time.now();
     Debug.print(debug_show (startTime));
 
-    //Here are some functionalities that users will perform like topUp balance, withdraw amount, checkBalance;
+    //Here are some functionalities that users will perform like topUp balance, withdraw amount, checkBalance, sendFunds;
     //*Function to topUP currentValue
     public func topUp(amount : Float) {
         currentValue += amount;
@@ -42,5 +42,16 @@ actor DBank {
         let timeElapsedS = timeElapsedNS / 1000000000;
         currentValue := currentValue * (1.01 ** Float.fromInt(timeElapsedS));
         startTime := currentTime; //set startTime to prvious time compond
+    };
+
+    //Function to send money
+    public func sendFund(amount : Float) {
+        let sendValue : Float = currentValue - amount;
+        if (sendValue < 50) {
+            Debug.print("Insufficient currentBalance!");
+        } else {
+            currentValue -= amount;
+            Debug.print(debug_show (currentValue));
+        }
     };
 };
