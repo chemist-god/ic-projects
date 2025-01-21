@@ -1,8 +1,8 @@
 import Debug "mo:base/Debug";
-// import Nat "mo:base/Nat";
-// import Int "mo:base/Int";
 import Time "mo:base/Time";
 import Float "mo:base/Float";
+import Int "mo:base/Int";
+import Text "mo:base/Text";
 
 //A Decentralised Banking
 actor DBank {
@@ -45,13 +45,17 @@ actor DBank {
     };
 
     //Function to send money
-    public func sendFund(amount : Float) {
+    public func sendFund(amount : Float, receiverNumber : Int) : async Text {
         let sendValue : Float = currentValue - amount;
+        Debug.print("Amount to send: " # debug_show (amount));
+        Debug.print("Receiver Number: " # debug_show (receiverNumber));
         if (sendValue < 50) {
             Debug.print("Insufficient currentBalance!");
+            return "Send failed. Insufficient balance."
         } else {
             currentValue -= amount;
             Debug.print(debug_show (currentValue));
+            return "Funds sent succesfully. New balance: " # debug_show(currentValue);
         }
     };
 };
