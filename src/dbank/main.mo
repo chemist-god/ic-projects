@@ -7,8 +7,7 @@ import Float "mo:base/Float";
 //A Decentralised Banking
 actor DBank {
 
-    stable var currentValue : Float = 100;
-    currentValue := 100;
+     stable var currentValue : Float = 100;
 
     stable var startTime = Time.now();
     Debug.print(debug_show (startTime));
@@ -17,7 +16,7 @@ actor DBank {
     //*Function to topUP currentValue
     public func topUp(amount : Float) {
         currentValue += amount;
-        Debug.print(debug_show (currentValue));
+        Debug.print("New balance after top-up: " # debug_show (currentValue));
     };
 
     //Function to withdraw() an amount from currentValue
@@ -25,7 +24,7 @@ actor DBank {
         let tempValue : Float = currentValue - amount;
         if (tempValue >= 0) {
             currentValue -= amount;
-            Debug.print(debug_show (currentValue));
+            Debug.print("New balance after withdraw: " # debug_show (currentValue));
         } else {
             Debug.print("Amount too large to withdraw, currentValue less than 0.");
         };
