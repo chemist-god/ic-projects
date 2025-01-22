@@ -49,6 +49,52 @@ actor Project{
    timeStamp: Time.Time;
  };
 
+ func recordTransactions(message : Text){
+   var transaction : Transaction = {
+     id = transactionId;
+     message = message;
+     timeStamp = Time.now();
+   };
+     transactions := Array.append(transactions, [transaction]);
+     transactionId +=1;
+ };
+
+
+ public func checkBalance(): async Text{
+   var message = "Your balance is " # Float.toText(balance);
+   recordTransactions(message);
+   return message;
+ };
+
+
+ public func topUp(amount: Float): async Text{
+   balance := balance + amount;
+   var message = "You deposited: " # Float.toText(amount);
+   recordTransactions(message);
+   return message;
+ };
+
+
+ public func withrawBalance(amount: Float): async Text{
+   if (amount > balance){
+     return "You are a broke boy ";
+   };
+  
+   balance := balance - amount;
+   var message = "You withdrew: " # Float.toText(amount);
+   recordTransactions(message);
+   return message;
+ };
+
+
+ public func getTransactions(): async [Transaction]{
+   return transactions;
+ };
+
+
+}
+
+
 
  
 
