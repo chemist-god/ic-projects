@@ -38,5 +38,20 @@ actor Project{
    addnum(x, y);
  };
 
+// Decentralised Banking System
+ // checkBalance , withDraw, topUp, transactions
+ stable var balance : Float = 100;
+ stable var transactions : [Transaction] = [];
+ stable var transactionId : Nat = 0;
+  type Transaction ={
+   id : Nat;
+   message : Text;
+   timeStamp: Time.Time;
+ };
+
+
+ 
+
+
 
 }
