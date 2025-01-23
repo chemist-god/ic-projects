@@ -3,6 +3,7 @@ import Time "mo:base/Time";
 import Float "mo:base/Float";
 import Int "mo:base/Int";
 import Text "mo:base/Text";
+import Array "mo:base/Array";
 
 //A Decentralised Banking
 actor DBank {
@@ -57,5 +58,15 @@ actor DBank {
             Debug.print(debug_show (currentValue));
             return "Funds sent succesfully. New balance: " # debug_show(currentValue);
         }
+    };
+
+    //Function to get Teransaction History
+     stable var recordHistory : [Text] = [] ;
+    public func transactionHistory(description : Text) {
+        recordHistory := Array.append(recordHistory, [description]);
+    };
+
+    public query func getTransactionHistory () : async [Text] {
+        return recordHistory;
     };
 };
