@@ -13,6 +13,8 @@ actor DBank {
     stable var startTime = Time.now();
     Debug.print(debug_show (startTime));
 
+    
+
     //Here are some functionalities that users will perform like topUp balance, withdraw amount, checkBalance, sendFunds;
     //*Function to topUP currentValue
     public func topUp(amount : Float) {
@@ -69,4 +71,7 @@ actor DBank {
     public query func getTransactionHistory () : async [Text] {
         return recordHistory;
     };
+
+    //
+    
 };
