@@ -5,11 +5,11 @@ import Int "mo:base/Int";
 import Text "mo:base/Text";
 import Array "mo:base/Array";
 
-// A Decentralised Banking
+// A Decentralized Banking System
 actor DBank {
 
-    stable var currentValue: Float = 100;
-    stable var startTime = Time.now();
+    stable var currentValue: Float = 100.0;
+    stable var startTime: Time.Time = Time.now();
     Debug.print(debug_show(startTime));
 
     // Define an enum for loan request status
@@ -28,14 +28,14 @@ actor DBank {
 
     // Function to request a loan
     public func loanRequest(amount: Float, duration: Int) {
-        assert(amount > 0.0 "Invalid loan amount: Amount must be greater than zero."); 
-        assert(duration > 0 "Invalid loan duration: Duration must be greater than zero."); 
+        assert(amount > 0.0, "Invalid loan amount: Amount must be greater than zero."); 
+        assert(duration > 0, "Invalid loan duration: Duration must be greater than zero."); 
 
         let newRequest: LoanRequest = {
-            amount: amount,
-            duration: duration,
-            timestamp: Time.now(),
-            status: LoanStatus.#Pending, 
+            amount = amount; // Use '=' for struct field assignment
+            duration = duration; // Use '=' for struct field assignment
+            timestamp = Time.now();
+            status = LoanStatus.#Pending; // Correctly access the enum variant
         };
 
         loanRequests := Array.append(loanRequests, [newRequest]);
@@ -45,18 +45,19 @@ actor DBank {
 
     // Function to top up currentValue
     public func topUp(amount: Float) {
+        assert(amount > 0.0, "Top-up amount must be greater than zero.");
         currentValue += amount;
         Debug.print("New balance after top-up: " # debug_show(currentValue));
     }
 
     // Function to withdraw an amount from currentValue
     public func withdraw(amount: Float) {
-        let tempValue: Float = currentValue - amount;
-        if (tempValue >= 0) {
+        assert(amount > 0.0, "Withdrawal amount must be greater than zero.");
+        if (currentValue >= amount) {
             currentValue -= amount;
-            Debug.print("New balance after withdraw: " # debug_show(currentValue));
+            Debug.print("New balance after withdrawal: " # debug_show(currentValue));
         } else {
-            Debug.print("Amount too large to withdraw, currentValue less than 0.");
+            Debug.print("Withdrawal failed: Insufficient balance.");
         }
     }
 
@@ -65,44 +66,42 @@ actor DBank {
         return currentValue;
     }
 
-    // Compound Interest
+    // Function to apply compound interest
     public func compound() {
         let currentTime = Time.now();
         let timeElapsedNS = currentTime - startTime;
-        let timeElapsedS = timeElapsedNS / 1000000000;
-        currentValue := currentValue * (1.01 ** Float.fromInt(timeElapsedS));
-        startTime := currentTime; // set startTime to previous time compound
+        let timeElapsedS = timeElapsedNS / 1_000_000_000; // Convert nanoseconds to seconds
+        currentValue *= (1.01 ** Float.fromInt(timeElapsedS));
+        startTime := currentTime; // Update startTime to the current time
     }
 
     // Function to send money
     public func sendFund(amount: Float, receiverNumber: Int) : async Text {
-        let sendValue: Float = currentValue - amount;
-        Debug.print("Amount to send: " # debug_show(amount));
-        Debug.print("Receiver Number: " # debug_show(receiverNumber));
-        if (sendValue < 50) {
-            Debug.print("Insufficient currentBalance!");
-            return "Send failed. Insufficient balance."
-        } else {
+        assert(amount > 0.0, "Send amount must be greater than zero.");
+        if (currentValue >= amount + 50.0) { // Ensure a minimum balance of 50
             currentValue -= amount;
-            Debug.print(debug_show(currentValue));
+            Debug.print("Funds sent successfully. New balance: " # debug_show(currentValue));
             return "Funds sent successfully. New balance: " # debug_show(currentValue);
+        } else {
+            Debug.print("Insufficient balance for the transaction.");
+            return "Send failed. Insufficient balance.";
         }
     }
 
-    // Function to get Transaction History
+    // Stable storage for transaction history
     stable var recordHistory: [Text] = [];
+
+    // Function to record a transaction
     public func transactionHistory(description: Text) : async Text {
         recordHistory := Array.append(recordHistory, [description]);
         return "Transaction recorded successfully.";
     }
 
+    // Function to get transaction history
     public query func getTransactionHistory() : async [Text] {
         return recordHistory;
     }
 };
-
-
-
 
 
 
